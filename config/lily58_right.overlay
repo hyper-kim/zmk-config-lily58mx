@@ -1,37 +1,15 @@
 /* config/lily58_right.overlay */
 
-&pinctrl {
-    i2c0_default: i2c0_default {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
-        };
-    };
-    i2c0_sleep: i2c0_sleep {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
-            low-power-enable;
-        };
-    };
-};
-
 &i2c0 {
     status = "okay";
-    compatible = "nordic,nrf-twim";
-    pinctrl-0 = <&i2c0_default>;
-    pinctrl-1 = <&i2c0_sleep>;
-    pinctrl-names = "default", "sleep";
-    clock-frequency = <I2C_BITRATE_FAST>;
 
-    /* Keyboard Hoarders의 'Glide' 모델에 쓰이는 TPS43 Azoteq 트랙패드 설정 */
+    /* 이미 이 버스(&i2c0)에는 OLED가 타고 있습니다. 그 아래에 트랙패드만 슬쩍 추가합니다. */
     trackpad: trackpad@74 {
-        compatible = "azoteq,iqs5xx";
+        compatible = "azoteq,iqs5xx"; /* TPS43 Azoteq 트랙패드 드라이버 */
         status = "okay";
-        reg = <0x74>;
+        reg = <0x74>; /* 트랙패드의 I2C 주소 */
         
-        /* 판매자가 INT 핀을 연결하지 않았으므로, 
-           펌웨어 빌드 에러를 막기 위해 안 쓰는 빈 핀(예: P0.06)을 가짜로 할당해 둡니다. */
+        /* 판매자가 INT 핀을 안 달았으므로, 가짜 핀(예: 0번 포트의 6번 핀)을 임시 배정해 에러를 막습니다. */
         dr-gpios = <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; 
     };
 };
