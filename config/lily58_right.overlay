@@ -8,7 +8,8 @@
         compatible = "azoteq,iqs5xx"; /* TPS43 Azoteq 트랙패드 드라이버 */
         status = "okay";
         reg = <0x74>; /* 트랙패드의 I2C 주소 */
-        
+        /* 👇 빌드 에러를 막기 위한 '가짜 핀' 입니다. 반드시 넣어주세요! 👇 */
+        dr-gpios = <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
    
     };
 };
