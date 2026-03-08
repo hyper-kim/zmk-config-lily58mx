@@ -6,9 +6,14 @@ manifest:
       url-base: https://github.com/zmkfirmware
     # Additional modules containing boards/shields/custom code can be listed here as well
     # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+    - name: hyper-kim   # <-- 주영님 깃허브 아이디 추가
+      url-base: https://github.com/hyper-kim
   projects:
     - name: zmk
       remote: zmkfirmware
       import: app/west.yml
+    - name: zmk-driver-azoteq   # <-- 방금 만든 드라이버 레포 추가
+      remote: hyper-kim
+      revision: main
   self:
     path: config
