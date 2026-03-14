@@ -39,13 +39,15 @@
     pinctrl-0 = <&i2c0_default>;
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-    clock-frequency = <100000>; /* 안정성을 위해 속도 100kHz로 하향 */
+    clock-frequency = <100000>;
 
     trackpad: trackpad@74 {
         compatible = "azoteq,iqs5xx";
         status = "okay";
         reg = <0x74>;
-        /* 가짜 인터럽트 핀 (에러 방지용) */
         dr-gpios = <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        
+        /* 🔥 감도 최대치 255 적용 🔥 */
+        sensitivity = <255>; 
     };
 };
