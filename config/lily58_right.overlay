@@ -19,15 +19,16 @@
 &pinctrl {
     i2c0_default: i2c0_default {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
-            bias-pull-up; /* 👈 이 한 줄이 핵심입니다! */
+            /* 🔥 물리적인 선 대신 코드로 위치를 바꿉니다 🔥 */
+            psels = <NRF_PSEL(TWIM_SDA, 0, 20)>, /* 기존 17 -> 20으로 변경 */
+                    <NRF_PSEL(TWIM_SCL, 0, 17)>; /* 기존 20 -> 17로 변경 */
+            bias-pull-up;
         };
     };
     i2c0_sleep: i2c0_sleep {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
+            psels = <NRF_PSEL(TWIM_SDA, 0, 20)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 17)>;
             low-power-enable;
         };
     };
