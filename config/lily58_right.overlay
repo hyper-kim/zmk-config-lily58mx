@@ -1,18 +1,6 @@
 /* config/lily58_right.overlay */
+#include <dt-bindings/pinctrl/nrf-pinctrl.h>
 
-&i2c0 {
-    status = "okay";
-
-    /* 이미 이 버스(&i2c0)에는 OLED가 타고 있습니다. 그 아래에 트랙패드만 슬쩍 추가합니다. */
-    trackpad: trackpad@74 {
-        compatible = "azoteq,iqs5xx"; /* TPS43 Azoteq 트랙패드 드라이버 */
-        status = "okay";
-        reg = <0x74>; /* 트랙패드의 I2C 주소 */
-        /* 👇 빌드 에러를 막기 위한 '가짜 핀' 입니다. 반드시 넣어주세요! 👇 */
-        dr-gpios = <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-   
-    };
-};
 / {
     chosen {
         zephyr,console = &cdc_acm_uart0;
@@ -24,5 +12,40 @@
     cdc_acm_uart0: cdc_acm_uart0 {
         compatible = "zephyr,cdc-acm-uart";
         label = "CDC_ACM_0";
+    };
+};
+
+/* 🔥 소프트웨어로 I2C 풀업 저항 켜기 🔥 */
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
+            bias-pull-up; /* 👈 이 한 줄이 핵심입니다! */
+        };
+    };
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
+            low-power-enable;
+        };
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    compatible = "nordic,nrf-twi";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+    clock-frequency = <100000>; /* 안정성을 위해 속도 100kHz로 하향 */
+
+    trackpad: trackpad@74 {
+        compatible = "azoteq,iqs5xx";
+        status = "okay";
+        reg = <0x74>;
+        /* 가짜 인터럽트 핀 (에러 방지용) */
+        dr-gpios = <&gpio0 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 };
