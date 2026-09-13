@@ -86,11 +86,11 @@
             //                     |      |      |      |        |  |       |      |       |       |
 
             bindings = <
-&trans  &trans    &trans    &trans     &trans  &trans                    &trans  &trans  &kp BACKSPACE  &kp PRINTSCREEN  &kp SCROLLLOCK  &kp PAUSE_BREAK
-&trans  &trans    &kp UP    &trans     &trans  &trans                    &kp N7  &kp N8  &kp N9         &kp INS          &kp HOME        &kp PG_UP
-&trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans                    &kp N4  &kp N5  &kp N6         &kp DEL          &kp SEMI        &kp APOS
-&trans  &tog 1    &trans    &trans     &trans  &trans  &trans    &trans  &kp N1  &kp N2  &kp N3         &trans           &kp END         &kp PG_DN
-                            &trans     &trans  &trans  &trans    &trans  &kp N0  &trans  &trans
+&trans  &trans    &trans    &trans     &trans  &trans                    &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp PAUSE_BREAK  &kp PRINTSCREEN  &kp DEL   &trans
+&trans  &trans    &kp UP    &trans     &trans  &trans                    &kp N7            &kp N8             &kp N9           &kp INS          &kp HOME  &kp END
+&trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans                    &kp N4            &kp N5             &kp N6           &kp PAGE_UP      &kp SEMI  &kp APOS
+&trans  &tog 1    &trans    &trans     &trans  &trans  &trans    &trans  &kp N1            &kp N2             &kp N3           &kp PAGE_DOWN    &kp END   &trans
+                            &trans     &trans  &trans  &trans    &trans  &kp N0            &trans             &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
